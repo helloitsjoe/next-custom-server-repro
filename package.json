@@ -6,19 +6,20 @@
     "build": "next build",
     "start": "next start",
     "dev": "nodemon src/start-server.js",
-    "dev:custom": "CUSTOM_SERVER=true nodemon src/start-server.js",
+    "dev:fixed": "__NEXT_PRIVATE_PREBUNDLED_REACT=next SET_CUSTOM_SERVER_FALSE=true nodemon src/start-server.js",
     "lint": "next lint"
   },
   "dependencies": {
     "eslint": "8.46.0",
-    "eslint-config-next": "13.4.3-canary.3",
+    "eslint-config-next": "13.4.2",
     "express": "^4.18.2",
-    "next": "13.4.3-canary.3",
+    "next": "13.4.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
     "prettier": "^3.0.0"
-  }
+  },
+  "packageManager": "yarn@3.6.1"
 }
