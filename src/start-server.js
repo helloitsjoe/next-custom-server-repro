@@ -1,37 +1,39 @@
-const { createServer } = require('http');
-const next = require('next');
-const express = require('express');
-const { getStore, run } = require('./async-store');
+const { createServer } = require("http");
+const next = require("next");
+const express = require("express");
+const { getStore, run } = require("./async-store");
 
 const app = express();
 
-const dev = process.env.NODE_ENV !== 'production';
-const customServer = process.env.CUSTOM_SERVER === 'true';
+const dev = process.env.NODE_ENV !== "production";
+const customServer = process.env.CUSTOM_SERVER === "true";
 
-console.log('customServer', customServer);
+console.log("customServer", customServer);
 
 const nextApp = next({ dev, customServer });
 const handle = nextApp.getRequestHandler();
 
-// AsyncStore middleware
+// Middleware to set up AsyncLocalStorage for passing context around
 app.use((req, res, next) => {
   const store = getStore();
+  // Create a context for the request.
+  // `run()` sets the AsyncLocalStorage instance's `enabled` to true
   run(new Map(), next);
 });
 
-// res.locals middleware
+// Middleware to set up res.locals for passing context around
 app.use((req, res, next) => {
-  res.locals.foo = 'bar';
-  console.log('START-SERVER res.locals.foo', res.locals.foo);
+  res.locals.foo = "bar";
+  console.log("START-SERVER res.locals.foo", res.locals.foo);
   next();
 });
 
 nextApp.prepare().then(() => {
-  console.log('NextApp is ready');
+  console.log("NextApp is ready");
 });
 
-app.get('*', handle);
+app.get("*", handle);
 
 createServer(app).listen(3000, () => {
-  console.log('listening on http://localhost:3000');
+  console.log("listening on http://localhost:3000");
 });

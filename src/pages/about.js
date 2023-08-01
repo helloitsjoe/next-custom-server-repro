@@ -1,9 +1,14 @@
-import { getStore } from '../async-store';
+import Link from "next/link";
+import { getStore } from "../async-store";
+
 export default function About() {
   return (
     <div>
-      <h1>About</h1>
+      <h1>
+        About page: <code style={{ color: "green" }}>pages</code> directory
+      </h1>
       <p>This is the about page</p>
+      <Link href="/">Home</Link>
     </div>
   );
 }
@@ -13,10 +18,9 @@ export function getServerSideProps(context) {
 
   const store = getStore();
 
-  console.log('ABOUT res.locals', res.locals);
-  console.log('ABOUT store', store);
-  console.log('ABOUT AsyncLocalStorage', globalThis.ASYNC_STORE);
+  console.log("PAGES ABOUT res.locals", res.locals);
+  console.log("PAGES ABOUT store", store);
+  console.log("PAGES ABOUT AsyncLocalStorage", globalThis.ASYNC_STORE);
 
-  // Pass data to the page via props
-  return { props: { foo: 'bar' } };
+  return { props: {} };
 }
