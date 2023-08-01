@@ -8,9 +8,7 @@ const app = express();
 const dev = process.env.NODE_ENV !== 'production';
 const customServer = process.env.CUSTOM_SERVER === 'true';
 
-console.log('customServer', customServer);
-
-const nextApp = next({ dev, customServer });
+const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
 
 // AsyncStore middleware
