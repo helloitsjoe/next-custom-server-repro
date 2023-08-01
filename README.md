@@ -23,7 +23,7 @@ One other thing that might be worth noting: `process.env.pid` in `async-store.js
 
 Next, run `yarn dev:fixed`, which runs `next({dev: true, customServer: false})`, but also sets `__NEXT_PRIVATE_PREBUNDLED_REACT=next` (See below for notes on that env var).
 
-Navigate to `http://localhost:3000/about` (`pages` directory), and you will see logs in the terminal for the `AsyncLocalStorage` store, `instance.enabled` and `res.locals`.
+Navigate to `http://localhost:3000` (`app` directory), and you will see the expected values in the UI and terminal logs. Navigate to `http://localhost:3000/about` (`pages` directory), and you will see values for the `AsyncLocalStorage` store, `instance.enabled` as well as `res.locals`.
 
 ```
 PAGES ABOUT res.locals [Object: null prototype] { foo: 'bar' }
