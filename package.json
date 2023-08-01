@@ -1,18 +1,24 @@
 {
-  "name": "custom-server-repro",
+  "name": "next-custom-server-repro",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "dev": "nodemon src/start-server.js",
+    "dev:custom": "CUSTOM_STORE=true nodemon src/start-server.js",
     "lint": "next lint"
   },
   "dependencies": {
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "express": "^4.18.2",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.0"
   }
 }
