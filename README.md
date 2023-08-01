@@ -49,6 +49,6 @@ ABOUT AsyncLocalStorage AsyncLocalStorage {
 }
 ```
 
-### `next@13.4.2` - `app` :white_check_mark: but no `pages` :white_check_mark:
+### `next@13.4.2` - `app` :white_check_mark: and `pages` :white_check_mark:
 
 If you switch to the `next-13-4-2` branch, which has `next@13.4.2` and no `customServer` in `next()`, you should see both `http://localhost:3000` (`app` directory) and `http://localhost:3000/about` (`pages` directory) load fine, with the expected `res.locals` and `AsyncLocalStorage` store in the logs.
