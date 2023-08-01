@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "dev": "nodemon src/start-server.js",
-    "dev:custom": "CUSTOM_SERVER=true nodemon src/start-server.js",
+    "dev:fixed": "__NEXT_PRIVATE_PREBUNDLED_REACT=next SET_CUSTOM_SERVER_FALSE=true nodemon src/start-server.js",
     "lint": "next lint"
   },
   "dependencies": {

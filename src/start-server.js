@@ -3,14 +3,20 @@ const next = require("next");
 const express = require("express");
 const { getStore, run } = require("./async-store");
 
+console.log("start-server pid", process.pid);
+
 const app = express();
 
 const dev = process.env.NODE_ENV !== "production";
-const customServer = process.env.CUSTOM_SERVER === "true";
+const setCustomServerFalse = process.env.SET_CUSTOM_SERVER_FALSE === "true";
 
-console.log("customServer", customServer);
+console.log("setCustomServerFalse", setCustomServerFalse);
 
-const nextApp = next({ dev, customServer });
+const nextApp = next({
+  dev,
+  // If customServer is not explicitly set to false, don't include it at all
+  ...(setCustomServerFalse ? { customServer: false } : null),
+});
 const handle = nextApp.getRequestHandler();
 
 // Middleware to set up AsyncLocalStorage for passing context around
@@ -24,7 +30,6 @@ app.use((req, res, next) => {
 // Middleware to set up res.locals for passing context around
 app.use((req, res, next) => {
   res.locals.foo = "bar";
-  console.log("START-SERVER res.locals.foo", res.locals.foo);
   next();
 });
 

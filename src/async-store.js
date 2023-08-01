@@ -1,5 +1,7 @@
 const { AsyncLocalStorage } = require("async_hooks");
 
+console.log("async-store pid", process.pid);
+
 if (!globalThis.__ASYNC_STORE) {
   console.log("Creating global store...");
   globalThis.__ASYNC_STORE = new AsyncLocalStorage();
