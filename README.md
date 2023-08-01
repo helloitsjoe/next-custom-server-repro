@@ -34,11 +34,11 @@ Navigate to `http://localhost:3000` (`app` directory), and you will see the foll
     at resolveExports (node:internal/modules/cjs/loader:569:36)
 ```
 
-### `next({customServer: true})` - `app` :white_check_mark: but no `pages` :x:
+### `next()` - `app` :white_check_mark: but no `pages` :x:
 
 Next, run `yarn dev:custom`, which runs `next()` with `customServer: true`. Navigate to `http://localhost:3000` (`app` directory), and the page should load successfully.
 
-Now navigate to `https://localhost:3000/about` (`pages`), and in the terminal you should see that the `AsyncLocalStorage` store instance and `res.locals` are both undefined:
+Now navigate to `http://localhost:3000/about` (`pages`), and in the terminal you should see that the `AsyncLocalStorage` store instance and `res.locals` are both undefined:
 
 ```
 ABOUT res.locals undefined
@@ -48,5 +48,3 @@ ABOUT AsyncLocalStorage AsyncLocalStorage {
   enabled: false
 }
 ```
-
-This behavior is the same when `customServer` is undefined.

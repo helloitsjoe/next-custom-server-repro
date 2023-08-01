@@ -33,5 +33,5 @@ nextApp.prepare().then(() => {
 app.get('*', handle);
 
 createServer(app).listen(3000, () => {
-  console.log('listening on port 3000');
+  console.log('listening on http://localhost:3000');
 });
