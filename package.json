@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "dev": "nodemon src/start-server.js",
-    "dev:custom": "CUSTOM_STORE=true nodemon src/start-server.js",
+    "dev:custom": "CUSTOM_SERVER=true nodemon src/start-server.js",
     "lint": "next lint"
   },
   "dependencies": {

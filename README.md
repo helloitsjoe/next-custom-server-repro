@@ -1,34 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Custom Server Reproduction
 
-## Getting Started
+## What seems to be the problem?
 
-First, run the development server:
+When running a custom server with NextJS, we ran into a few unexpected behaviors:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+1. **`res.locals` is undefined.** We rely on `res.locals` to pass context from the custom server to `getServerSideProps` in pages in the `pages` directory.
+2. **`AsyncLocalStorage` does not work correctly.** When creating a global store, the instance of the store is undefined, and `enabled` is false.
+
+## How to reproduce
+
+To start, run `yarn` and `yarn dev`. This will start running the custom server in `src/start-server.js`. By default, the `customServer` option to `next()` is `false`.
+
+### `next({customServer: false})` - `pages` :white_check_mark: but no `app` :x:
+
+Navigate to `http://localhost:3000/about` (`pages` directory), and you will see logs in the terminal for the `AsyncLocalStorage` store instance and `res.locals`.
+
+```
+ABOUT res.locals [Object: null prototype] { foo: 'bar' }
+ABOUT store Map(0) {}
+ABOUT AsyncLocalStorage AsyncLocalStorage {
+  kResourceStore: Symbol(kResourceStore),
+  enabled: true
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Navigate to `http://localhost:3000` (`app` directory), and you will see the following error:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+- error Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './server.edge' is not defined by "exports" in /Users/joe/PROJECTS/next-custom-server-repro/node_modules/react-dom/package.json
+    at new NodeError (node:internal/errors:399:5)
+    at exportsNotFound (node:internal/modules/esm/resolve:261:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:591:9)
+    at resolveExports (node:internal/modules/cjs/loader:569:36)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### `next({customServer: true})` - `app` :white_check_mark: but no `pages` :x:
 
-## Learn More
+Next, run `yarn dev:custom`, which runs `next()` with `customServer: true`. Navigate to `http://localhost:3000` (`app` directory), and the page should load successfully.
 
-To learn more about Next.js, take a look at the following resources:
+Now navigate to `https://localhost:3000/about` (`pages`), and in the terminal you should see that the `AsyncLocalStorage` store instance and `res.locals` are both undefined:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+ABOUT res.locals undefined
+ABOUT store undefined
+ABOUT AsyncLocalStorage AsyncLocalStorage {
+  kResourceStore: Symbol(kResourceStore),
+  enabled: false
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This behavior is the same when `customServer` is undefined.

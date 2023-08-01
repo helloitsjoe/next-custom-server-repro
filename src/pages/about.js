@@ -13,8 +13,9 @@ export function getServerSideProps(context) {
 
   const store = getStore();
 
+  console.log('ABOUT res.locals', res.locals);
   console.log('ABOUT store', store);
-  console.log('ABOUT res.locals.foo', res.locals.foo);
+  console.log('ABOUT AsyncLocalStorage', globalThis.ASYNC_STORE);
 
   // Pass data to the page via props
   return { props: { foo: 'bar' } };
