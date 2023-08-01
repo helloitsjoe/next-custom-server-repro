@@ -19,7 +19,7 @@ Now navigate to `http://localhost:3000/about` (`pages`), and in the terminal you
 
 One other thing that might be worth noting: `process.env.pid` in `async-store.js` is not always the same as `process.env.pid` in `start-server.js`. However, this is true for both the broken version and fixed version, so might be a red herring.
 
-### `next({customServer: false})` - :white_check_mark:\*
+### `next({dev: true, customServer: false})` :white_check_mark: \*
 
 Next, run `yarn dev:fixed`, which runs `next({dev: true, customServer: false})`, but also sets `__NEXT_PRIVATE_PREBUNDLED_REACT=next` (See below for notes on that env var).
 
@@ -31,11 +31,9 @@ PAGES ABOUT store Map(0) {}
 PAGES ABOUT Async Store enabled true
 ```
 
-Navigate to `http://localhost:3000` (`app` directory), and you will see the following error:
-
 #### `__NEXT_PRIVATE_PREBUNDLED_REACT=next`
 
-Without this private env var, the app router does not work in dev.
+Without this private env var, the app router does not work in dev, with the following error:
 
 ```bash
 - error Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './server.edge' is not defined by "exports" in /Users/joe/PROJECTS/next-custom-server-repro/node_modules/react-dom/package.json
@@ -45,6 +43,6 @@ at packageExportsResolve (node:internal/modules/esm/resolve:591:9)
 at resolveExports (node:internal/modules/cjs/loader:569:36)
 ```
 
-### `next@13.4.2` - :white_check_mark:
+### `next@13.4.2` :white_check_mark:
 
-If you switch to the `next-13-4-2` branch, which has `next@13.4.2` and no `customServer` in `next()`, you should see both `http://localhost:3000` (`app` directory) and `http://localhost:3000/about` (`pages` directory) load fine, with the expected `res.locals` and `AsyncLocalStorage` store in the logs.
+The `next-13-4-2` branch has `next@13.4.2` and no `customServer` in `next()`. If you switch to this branch and run `yarn && yarn dev` you should see both `http://localhost:3000` (`app` directory) and `http://localhost:3000/about` (`pages` directory) load fine, with the expected `res.locals` and `AsyncLocalStorage` store in the UI/logs.
