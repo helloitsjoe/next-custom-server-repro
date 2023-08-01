@@ -31,6 +31,8 @@ PAGES ABOUT store Map(0) {}
 PAGES ABOUT Async Store enabled true
 ```
 
+This works as a workaround, but doesn't seem like `customServer: false` is the right solution, especially because it's incorrect/confusing. We also don't want to depend on a private env var:
+
 #### `__NEXT_PRIVATE_PREBUNDLED_REACT=next`
 
 Without this private env var, the app router does not work in dev, with the following error:
