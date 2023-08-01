@@ -2,7 +2,7 @@
 
 ## What seems to be the problem?
 
-When running a custom server with NextJS, we ran into a few unexpected behaviors:
+When running a custom server with NextJS starting in `next@13.4.3-canary.3`, we ran into a few unexpected behaviors:
 
 1. **`res.locals` is undefined.** We rely on `res.locals` to pass context from the custom server to `getServerSideProps` in pages in the `pages` directory.
 2. **`AsyncLocalStorage` does not work correctly.** When creating a global store, the instance of the store is undefined, and `enabled` is false.
@@ -48,3 +48,7 @@ ABOUT AsyncLocalStorage AsyncLocalStorage {
   enabled: false
 }
 ```
+
+### `next@13.4.2` - `app` :white_check_mark: but no `pages` :white_check_mark:
+
+If you switch to the `next-13-4-2` branch, which has `next@13.4.2` and no `customServer` in `next()`, you should see both `http://localhost:3000` (`app` directory) and `http://localhost:3000/about` (`pages` directory) load fine, with the expected `res.locals` and `AsyncLocalStorage` store in the logs.
