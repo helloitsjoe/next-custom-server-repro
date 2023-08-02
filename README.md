@@ -6,8 +6,8 @@ Reproduction repo for https://github.com/vercel/next.js/issues/53466
 
 When running a custom server with NextJS starting in `next@13.4.3-canary.3`, we ran into a few unexpected behaviors:
 
-1. **`res.locals` is undefined.** We rely on `res.locals` to pass context from the custom server to `getServerSideProps` in pages in the `pages` directory.
-2. **`AsyncLocalStorage` does not work correctly.** When we tried using an `AsyncLocalStorage` store as an alternative to `res.locals`, the store instance is undefined when accessing it in `getServerSideProps`.
+1. **`res.locals` is undefined in `getServerSideProps`.** We rely on `res.locals` to pass context from the custom server to `getServerSideProps` in pages in the `pages` directory.
+2. **`AsyncLocalStorage` does not work correctly in the `app` or `pages` directories.** When we tried using an `AsyncLocalStorage` store as an alternative to `res.locals`, the store instance is undefined when accessing it in `getServerSideProps`.
 
 This _seems_ to be connected to https://github.com/vercel/next.js/pull/49805, and the workaround noted in [this comment](https://github.com/vercel/next.js/pull/49805#issuecomment-1557321794) worked for us (but also requires `__NEXT_PRIVATE_PREBUNDLED_REACT`, see below).
 
